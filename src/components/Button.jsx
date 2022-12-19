@@ -1,9 +1,11 @@
-const Button = ({ as, children, filled, secondary, onCickEvent, ...rest }) => {
+const Button = ({ as, children, filled, secondary, wrapped, onCickEvent, ...rest }) => {
     return (
         <button
             className={`dir-control ${
                 secondary ? "dir-control--secondary" : ""
-            } ${filled ? "dir-control--filled" : ""}`}
+            } 
+            ${filled ? "dir-control--filled" : ""}
+            ${wrapped ? "dir-control--wrapped" : ""}`}
             {...rest}
             onClick={onCickEvent}
         >
