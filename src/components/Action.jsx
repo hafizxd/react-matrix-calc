@@ -210,7 +210,7 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
                 <>
                     <div className="scalar">
                         <Button role="button" onCickEvent={() => Scalar()} > Skalar </Button>
-                        <input type="text" inputmode="numeric" value={kScalar} onChange={((e) => setKScalar(e.target.value))} />
+                        <input type="text" inputMode="numeric" value={kScalar} onChange={((e) => setKScalar(e.target.value))} />
                     </div>
                     <Button role="button" onCickEvent={() => Transpose()} > Transpose </Button>
                     <Button role="button" onCickEvent={() => Determinant()} > Determinan </Button>
