@@ -1,6 +1,9 @@
+import { useState } from "react";
 import Button from "./Button";
 
 const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
+    const [kScalar, setKScalar] = useState(0)
+    
     // Dua Matrix
     const Add = () => {
         if (input.length != input2.length || input[0].length != input2.length) {
@@ -76,49 +79,6 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
 
 
     // Satu Matriks
-    const Rank = () => {
-        let rank = input[0].length;
-		let row = input.length;
-		let mat = input;
-		
-		for (row = 0; row < rank; row++) { 
-			if (mat[row][row]) { 
-			   for (let col = 0; col < input.length; col++) { 
-				   if (col != row) { 
-					 let mult = Math.round(mat[col][row] / mat[row][row]*100)/100; 
-					 for (let i = 0; i < rank; i++) 
-					   mat[col][i] -= mult * mat[row][i]; 
-				  } 
-			   } 
-			} 
-			else
-			{ 
-				let reduce = true; 
-				for (let i = row + 1; i < input.length;  i++) 
-				{ 
-					if (mat[i][row]) 
-					{ 
-						let aux = mat[row];
-						mat[row] = mat[i];
-						mat[i] = aux;
-						reduce = false; 
-						break; 
-					} 
-				} 
-				if (reduce) 
-				{ 
-					rank--; 
-					for (let i = 0; i < input.length; i++) 
-						mat[i][row] = mat[i][rank]; 
-				} 
-				row--; 
-			} 
-		} 
-
-        setOutput([]);
-        setErr('Rank Matriks adalah : ' + rank);
-    }
-
     const Transpose = () => {
         let result = [...Array(input[0].length)].map(e => [...Array(input.length)]);
 
@@ -144,10 +104,10 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
 
     const countDeterminant = (mat) => {
         if (mat.length == 2) {
-          return mat[0][0] * mat[1][1] - mat[0][1] * mat[1][0]
+          return input[0][0] * input[1][1] - input[0][1] * input[1][0]
         }
     
-        const parts = mat[0].map((coef, index) => {
+        const parts = input[0].map((coef, index) => {
           const matrixRows = mat.slice(1).map(row => [ ...row.slice(0, index), ...row.slice(index + 1)])
           const result = coef * countDeterminant(matrixRows)
           return index % 2 === 0 ? result : -result
@@ -160,7 +120,83 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
         })
 
         return res;
-      }
+    }
+
+    const swap = (input, row1 , row2 , col) => {
+        for (let i = 0; i < col; i++)
+        {
+            var temp = input[row1][i];
+            input[row1][i] = input[row2][i];
+            input[row2][i] = temp;
+        }
+    }
+
+    const Rank = () => {
+        let rank = input.length;
+        let R = input.length;
+        let reduce = false;
+     
+        for (let row = 0; row < rank; row++)
+        {
+            if (input[row][row] != 0)
+            {
+                for (let col = 0; col < R; col++)
+                {
+                    if (col != row)
+                    {
+                        let mult = input[col][row] / input[row][row];
+                                     
+                        for (let i = 0; i < rank; i++) {
+                            input[col][i] -= mult * input[row][i];
+                        }
+                    }
+                }
+            }
+            else
+            {
+                reduce = true;
+     
+                for (let i = row + 1; i < R; i++)
+                {
+                    if (input[i][row] != 0)
+                    {
+                        swap(input, row, i, rank);
+                        reduce = false;
+                        break;
+                    }
+                }
+
+                if (reduce)
+                {
+                    rank--;
+     
+                    for (let i = 0; i < R; i ++)
+                        input[i][row] = input[i][rank];
+                }
+     
+                row--;
+            }
+        }
+
+        setOutput([]);
+        setErr('Rank Matriks adalah : ' + rank);
+    }
+
+    const Scalar = () => {
+        if (typeof(kScalar) == 'undefined' || kScalar == '') {
+            setOutput([])
+            return setErr('Skalar harus diisi')
+        }
+
+        let result = [...Array(input.length)].map(e => [...Array(input[0].length)]);
+        for (let i = 0; i < input.length; i++) {
+            for (let j = 0; j < input.length; j++) {
+                result[i][j] = kScalar * input[i][j]
+            }
+        }
+
+        setOutput(result)
+    }
 
     return (
         <>
@@ -173,9 +209,13 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
                 </>
                 :
                 <>
-                    <Button role="button" onCickEvent={() => Rank()} > Rank </Button>
+                    <div className="scalar">
+                        <Button role="button" onCickEvent={() => Scalar()} > Skalar </Button>
+                        <input type="text" inputmode="numeric" value={kScalar} onChange={((e) => setKScalar(e.target.value))} />
+                    </div>
                     <Button role="button" onCickEvent={() => Transpose()} > Transpose </Button>
                     <Button role="button" onCickEvent={() => Determinant()} > Determinan </Button>
+                    <Button role="button" onCickEvent={() => Rank()} > Rank </Button>
                 </>
             }
         </>

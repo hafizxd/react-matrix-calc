@@ -87,6 +87,36 @@
     padding: 20px;
 }
 
+.scalar input {
+    --borderWidth: 2;
+    --buttonColor: #c7edef;
+    --bg: #0d0d0d;
+    --backdrop: transparent;
+    --fontSize: 1;
+    --horizontalPadding: 16;
+    --verticalPadding: 8;
+    margin: 10px;
+    background: var(--backdrop);
+    border: calc(var(--borderWidth) * 1px) solid var(--buttonColor);
+    border-radius: 9999px;
+    text-align: center;
+    line-height: 24px;
+    color: var(--textColor, var(--buttonColor));
+    font-size: calc(var(--fontSize) * 1rem);
+    font-weight: bold;
+    font-family: sans-serif;
+    outline: transparent;
+    padding: calc(var(--verticalPadding) * 1px)
+        calc(var(--horizontalPadding) * 1px);
+    position: relative;
+    text-decoration: none;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 165px;
+}
+
 /* Button */
 .dir-control {
     --borderWidth: 2;
