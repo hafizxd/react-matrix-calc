@@ -147,35 +147,35 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
                         
                         for (let i = 0; i < rank; i++) {
                             input[col][i] -= mult * input[row][i];
+                        }
                     }
                 }
-                }
-            }
-            else
-            {
-                reduce = true;
-     
-                for (let i = row + 1; i < R; i++)
-                {
-                    if (input[i][row] != 0)
-                    {
-                        swap(input, row, i, rank);
-                        reduce = false;
-                        break;
-                    }
-                }
+            }
+            else
+            {
+                reduce = true;
 
-                if (reduce)
-                {
-                    rank--;
-     
-                    for (let i = 0; i < R; i ++)
-                        input[i][row] = input[i][rank];
-                }
-     
-                row--;
-            }
-        }
+                for (let i = row + 1; i < R; i++)
+                {
+                    if (input[i][row] != 0)
+                    {
+                        swap(input, row, i, rank);
+                        reduce = false;
+                        break;
+                    }
+                }
+
+                if (reduce)
+                {
+                    rank--;
+
+                    for (let i = 0; i < R; i ++)
+                        input[i][row] = input[i][rank];
+                }
+
+                row--;
+            }
+        }
 
         setOutput([]);
         setErr('Rank Matriks adalah : ' + rank);
