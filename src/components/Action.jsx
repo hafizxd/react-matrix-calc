@@ -123,33 +123,32 @@ const Action = ({ input, input2, setOutput, setErr, isTwoMat }) => {
     }
 
     const swap = (input, row1 , row2 , col) => {
-        for (let i = 0; i < col; i++)
-        {
-            var temp = input[row1][i];
-            input[row1][i] = input[row2][i];
-            input[row2][i] = temp;
-        }
-    }
+        for (let i = 0; i < col; i++)
+        {
+            var temp = input[row1][i];
+            input[row1][i] = input[row2][i];
+            input[row2][i] = temp;
+        }
+    }
 
     const Rank = () => {
         let rank = input.length;
         let R = input.length;
         let reduce = false;
-     
-        for (let row = 0; row < rank; row++)
-        {
-            if (input[row][row] != 0)
-            {
-                for (let col = 0; col < R; col++)
-                {
-                    if (col != row)
-                    {
-                        let mult = input[col][row] / input[row][row];
-                                     
-                        for (let i = 0; i < rank; i++) {
+
+        for (let row = 0; row < rank; row++)
+        {
+            if (input[row][row] != 0)
+            {
+                for (let col = 0; col < R; col++)
+                {
+                    if (col != row) {
+                        let mult = input[col][row] / input[row][row];
+                        
+                        for (let i = 0; i < rank; i++) {
                             input[col][i] -= mult * input[row][i];
-                        }
-                    }
+                    }
+                }
                 }
             }
             else
